@@ -1,0 +1,49 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.code-workspace
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# C / C++
+*.o
+*.obj
+*.out
+*.exe
+*.a
+*.so
+*.dll
+build/
+
+# Java / JVM
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+
+# Node / JS / TS
+node_modules/
+dist/
+*.log
+
+# Logs
+*.log
+logs/
+
+# Misc
+coverage/
+.tmp/
+.cache/ 

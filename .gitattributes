@@ -1,0 +1,15 @@
+* text=auto
+
+# Treat these as text, enforce LF
+*.py  text eol=lf
+*.cpp text eol=lf
+*.hpp text eol=lf
+*.c   text eol=lf
+*.h   text eol=lf
+*.js  text eol=lf
+*.ts  text eol=lf
+*.java text eol=lf
+*.md  text eol=lf
+
+# Improve diffs for certain files
+*.md diff=markdown 

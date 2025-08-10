@@ -14,7 +14,7 @@
   - [内容组织与目录约定](#内容组织与目录约定)
   - [文件命名规范](#文件命名规范)
   - [题解模板（建议）](#题解模板建议)
-  - [如何运行与测试](#如何运行与测试)
+  - [如何运行](#如何运行)
   - [代码风格与工具建议](#代码风格与工具建议)
   - [提交信息与分支规范](#提交信息与分支规范)
   - [规划与进度追踪](#规划与进度追踪)
@@ -55,16 +55,9 @@
 ├─ notes/              # 专题笔记、思路总结、易错点、复杂度分析
 │  ├─ topics/
 │  └─ mistakes/
-├─ tests/              # 单元测试（可选）
 ├─ scripts/            # 辅助脚本（对拍、统计、生成目录）
 └─ README.md
 ```
-
-说明：
-- 同一题的不同语言解法统一放在该题文件夹内，不再按语言分层。
-- 多解方案命名建议：`solution_v2.*` 或按思路命名：`two_pointers.*`、`binary_search.*`。
-- 可按需增减平台目录（如 `luogu/`、`codeforces/`）。
-- 是否保留难度层级可按个人习惯调整。
 
 ---
 
@@ -119,7 +112,7 @@ class Solution:
 
 ---
 
-## 如何运行与测试
+## 如何运行
 
 不同语言按需选择：
 
@@ -131,9 +124,6 @@ class Solution:
     .venv/Scripts/activate  # Windows
     pip install -r requirements.txt
     ```
-  - 单元测试（建议 `pytest`）：
-    - 测试文件放在 `tests/`，如：`tests/leetcode/easy/test_0001_two_sum.py`
-    - 约定被测函数/类的可导入路径，避免包含非法字符（文件名使用下划线）。
 
 - C++
   - 编译运行：
@@ -156,7 +146,7 @@ class Solution:
 
 ## 代码风格与工具建议
 
-- Python：`ruff` + `black` + `pytest`
+- Python：`ruff` + `black`
 - C++：`clang-format` + `cpplint`
 - JavaScript/TypeScript：`eslint` + `prettier`
 - Git Hooks：可使用 `pre-commit` 统一做格式化与静态检查
@@ -169,7 +159,6 @@ class Solution:
 - `feat: add leetcode/easy/0001_two_sum: python solution`
 - `refactor: leetcode/easy/0239_sliding_window_maximum: optimize using deque`
 - `docs: add notes/topics/动态规划-背包九讲`
-- `test: add tests/leetcode/easy/test_0001_two_sum.py`
 
 分支建议：
 - `main`：稳定可读的题解与文档
