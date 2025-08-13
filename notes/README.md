@@ -1,7 +1,27 @@
+<div align="center">
+
 # 📚 核心笔记 (Core Notes)
 
-> *一份系统化的算法学习笔记，助力编程面试和竞赛准备*
+<p align="center">
+  <img src="https://img.shields.io/badge/Algorithm-Study%20Notes-brightgreen?style=for-the-badge&logo=github" alt="Algorithm Study Notes">
+  <img src="https://img.shields.io/badge/Language-多语言-blue?style=for-the-badge" alt="Multi Language">
+  <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge" alt="Status">
+</p>
 
+> *🎯 一份系统化的算法学习笔记，助力编程面试和竞赛准备*
+
+> *📈 从基础到进阶，覆盖核心算法思想与实战技巧*
+
+</div>
+
+---
+
+## 📖 目录 (Table of Contents)
+
+- [🔍 二分查找](#-二分查找)
+- [👫 双指针法](#-双指针法快慢指针法)
+- [📊 复杂度分析](#-复杂度分析)
+- [🛠️ 解题技巧](#️-解题技巧)
 ---
 
 ## 🔍 二分查找
@@ -63,10 +83,69 @@ int binarySearch(vector<int>& nums, int target) {
 }
 ```
 
-## 🔍 双指针法（快慢指针法）
+## 👫 双指针法（快慢指针法）
 
 ### 💡 核心思想
 通过一个快指针和慢指针在一个for循环下完成两个for循环的工作。
+
+### 🎯 适用场景
+- **数组去重**：移除重复元素
+- **数组移动**：移除特定元素
+- **链表操作**：环检测、中点查找
+- **字符串处理**：回文判断、字符统计
+
+### 🔨 经典模板
+
+#### 模板一：数组元素移除
+```cpp
+int removeElement(vector<int>& nums, int val) {
+    int slowIndex = 0;
+    for (int fastIndex = 0; fastIndex < nums.size(); fastIndex++) {
+        if (nums[fastIndex] != val) {
+            nums[slowIndex++] = nums[fastIndex];
+        }
+    }
+    return slowIndex;
+}
+```
+
+#### 模板二：链表快慢指针
+```cpp
+// 检测链表是否有环
+bool hasCycle(ListNode* head) {
+    if (!head || !head->next) return false;
+    
+    ListNode* slow = head;
+    ListNode* fast = head->next;
+    
+    while (slow != fast) {
+        if (!fast || !fast->next) return false;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return true;
+}
+```
+
+#### 模板三：对撞指针
+```cpp
+// 判断回文字符串
+bool isPalindrome(string s) {
+    int left = 0, right = s.length() - 1;
+    while (left < right) {
+        if (s[left] != s[right]) return false;
+        left++;
+        right--;
+    }
+    return true;
+}
+```
+
+### 💡 核心要点
+- **速度差异**：快指针每次移动2步，慢指针1步
+- **相遇条件**：有环时快慢指针必然相遇
+- **边界处理**：注意空指针和单节点情况
+- **应用灵活**：根据问题调整指针移动策略
 
 
 ## 📊 复杂度分析
@@ -80,6 +159,14 @@ int binarySearch(vector<int>& nums, int target) {
 | O(n log n) | 线性对数 | 快速排序 | 10^5 |
 | O(n²) | 平方 | 冒泡排序 | 10^3 |
 | O(2^n) | 指数 | 回溯算法 | ≤25 |
+
+### 🔢 空间复杂度对照表
+| 复杂度 | 名称 | 典型场景 | 说明 |
+|--------|------|----------|------|
+| O(1) | 常数空间 | 原地算法 | 只使用有限个变量 |
+| O(log n) | 对数空间 | 递归调用 | 二分查找的递归实现 |
+| O(n) | 线性空间 | 额外数组 | 哈希表、动态规划 |
+| O(n²) | 平方空间 | 二维数组 | 图的邻接矩阵 |
 
 ---
 
@@ -100,8 +187,15 @@ int binarySearch(vector<int>& nums, int target) {
 
 <div align="center">
 
-**🎉 Happy Coding! 🎉**
+## 🎉 Happy Coding! 🎉
 
-*最后更新：2025-08-13*
+> *"算法不是目的，思维才是核心"*
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge" alt="Made with Love">
+  <img src="https://img.shields.io/badge/Last%20Updated-2025--08--13-blue?style=for-the-badge" alt="Last Updated">
+</p>
+
+**⭐ 如果这份笔记对你有帮助，请给个Star支持一下！⭐**
 
 </div>
