@@ -20,6 +20,7 @@
 
 - [🔍 二分查找](#-二分查找)
 - [👫 双指针法](#-双指针法快慢指针法)
+- [🪟 滑动窗口](#-滑动窗口)
 - [📊 复杂度分析](#-复杂度分析)
 - [🛠️ 解题技巧](#️-解题技巧)
 ---
@@ -148,6 +149,99 @@ bool isPalindrome(string s) {
 - **应用灵活**：根据问题调整指针移动策略
 
 
+## 🪟 滑动窗口
+
+### 💡 核心思想
+滑动窗口是一种基于**双指针**的高效算法技巧，通过不断调节子序列的起始位置和终止位置来解决特定问题。
+
+其精妙之处在于根据当前子序列状态（如和、长度等），动态调节窗口边界，从而将 **O(n²)** 的暴力解法优化为 **O(n)**。
+
+### 🎯 适用场景
+- **子数组/子字符串问题**：最小/最大长度、和为目标值
+- **字符统计问题**：无重复字符、字符频次
+- **区间优化问题**：最大/最小覆盖、定长窗口
+- **连续序列问题**：连续子数组、滑动最值
+
+### 🔨 经典模板
+
+#### 模板一：固定窗口大小
+```cpp
+vector<int> slidingWindowFixed(vector<int>& nums, int k) {
+    vector<int> result;
+    int sum = 0;
+    
+    // 初始化窗口
+    for (int i = 0; i < k; i++) {
+        sum += nums[i];
+    }
+    result.push_back(sum);
+    
+    // 滑动窗口
+    for (int i = k; i < nums.size(); i++) {
+        sum = sum - nums[i - k] + nums[i];  // 移除左边，添加右边
+        result.push_back(sum);
+    }
+    return result;
+}
+```
+
+#### 模板二：可变窗口大小（最小长度）
+```cpp
+int minSubArrayLen(int target, vector<int>& nums) {
+    int result = INT_MAX;
+    int sum = 0;
+    int left = 0;
+    
+    for (int right = 0; right < nums.size(); right++) {
+        sum += nums[right];  // 扩大窗口
+        
+        while (sum >= target) {  // 收缩窗口
+            result = min(result, right - left + 1);
+            sum -= nums[left++];
+        }
+    }
+    return result == INT_MAX ? 0 : result;
+}
+```
+
+#### 模板三：可变窗口大小（最大长度）
+```cpp
+int lengthOfLongestSubstring(string s) {
+    unordered_set<char> window;
+    int maxLen = 0;
+    int left = 0;
+    
+    for (int right = 0; right < s.length(); right++) {
+        // 收缩窗口直到无重复字符
+        while (window.count(s[right])) {
+            window.erase(s[left++]);
+        }
+        
+        window.insert(s[right]);  // 扩大窗口
+        maxLen = max(maxLen, right - left + 1);
+    }
+    return maxLen;
+}
+```
+
+### 💡 核心要点
+- **窗口维护**：明确窗口的含义和维护方式
+- **双指针协作**：left收缩窗口，right扩大窗口
+- **状态更新**：及时更新窗口内的状态（和、计数等）
+- **边界条件**：注意空数组和单元素情况
+- **优化思路**：避免重复计算，利用窗口的连续性
+
+### 🔄 算法流程
+```
+1. 初始化：left = 0, right = 0, 窗口状态
+2. 扩大窗口：right右移，更新窗口状态
+3. 判断条件：检查当前窗口是否满足条件
+4. 收缩窗口：如需要，left右移，更新状态
+5. 记录结果：更新最优解
+6. 重复2-5直到right到达边界
+```
+
+
 ## 📊 复杂度分析
 
 ### ⏱️ 时间复杂度对照表
@@ -174,14 +268,21 @@ bool isPalindrome(string s) {
 
 ### 🎯 识别模式
 - **🔍 有序数组** → 二分查找
-- **📏 子数组问题** → 滑动窗口、前缀和
-- **🔄 排列组合** → 回溯算法
+- **📏 连续子数组** → 滑动窗口、前缀和
+- **👫 数组双指针** → 对撞指针、快慢指针
+- **🪟 窗口问题** → 固定/可变滑动窗口
+- **🔄 排列组合** → 回溯算法、DFS
 - **💰 最优化问题** → 动态规划、贪心
+- **🌳 树形结构** → 递归、层序遍历
+- **📊 图论问题** → BFS、DFS、最短路径
 
 ### ⚡ 优化技巧
-- **🎨 空间换时间**：哈希表、前缀和
-- **⏰ 预处理**：排序、预计算
-- **🔢 位运算**：状态压缩、快速计算
+- **🎨 空间换时间**：哈希表、前缀和、缓存
+- **⏰ 预处理**：排序、预计算、建索引
+- **🔢 位运算**：状态压缩、快速计算、掩码
+- **🪟 窗口技巧**：双指针、滑动统计、单调队列
+- **✂️ 剪枝优化**：提前返回、条件过滤、边界处理
+- **📝 记忆化**：递归缓存、状态记录、避免重计算
 
 ---
 
