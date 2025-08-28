@@ -21,7 +21,8 @@
 - [🔍 二分查找](#-二分查找)
 - [👫 双指针技术](#-双指针技术)
 - [🪟 滑动窗口](#-滑动窗口)
-- [🎭 虚拟头节点](#-虚拟头节点技巧)
+- [🎭 虚拟头节点技巧](#-虚拟头节点技巧)
+- [🔍 哈希表](#-哈希表)
 - [📊 复杂度分析](#-复杂度分析)
 - [🛠️ 解题技巧](#️-解题技巧)
 ---
@@ -235,7 +236,7 @@ int lengthOfLongestSubstring(string s) {
 ### 🔄 算法流程
 ```
 1. 初始化：left = 0, right = 0, 窗口状态
-2. 扩大窗口：right右移，更新窗口状态
+2. 扩大窗口：right右移，更新窗口状态  
 3. 判断条件：检查当前窗口是否满足条件
 4. 收缩窗口：如需要，left右移，更新状态
 5. 记录结果：更新最优解
@@ -286,6 +287,145 @@ ListNode* processLinkedList(ListNode* head) {
 - **易于理解**：代码逻辑更清晰直观
 
 
+## 🔍 哈希表
+
+### 💡 核心思想
+哈希表是根据关键码的值而直接进行访问的数据结构，通过**哈希函数**将关键字映射到存储位置，实现 **O(1)** 平均时间复杂度的查找、插入和删除操作。
+
+### 🎯 适用场景
+- **快速查找**：判断元素是否存在集合中
+- **计数统计**：统计元素出现频次、字符计数
+- **去重操作**：数组去重、集合运算
+- **映射关系**：建立键值对应关系
+- **缓存实现**：LRU缓存、数据缓存
+
+### 🏗️ 数据结构选择
+
+| 数据结构 | C++ | Python | Go | 时间复杂度 | 特点 |
+|----------|-----|--------|----|-----------|----- |
+| **数组** | `int arr[26]` | `[0] * 26` | `[26]int{}` | O(1) | 固定范围，空间高效 |
+| **哈希集合** | `unordered_set` | `set()` | `map[int]bool` | O(1) | 去重，快速查找 |
+| **哈希映射** | `unordered_map` | `dict` | `map[int]int` | O(1) | 键值对，计数统计 |
+| **有序集合** | `set` | `sorted(set())` | `sync.Map` | O(log n) | 有序存储 |
+
+### 🔍 C++容器详细对比
+
+#### 集合类型 (Set)
+| 集合类型 | `std::set` | `std::multiset` | `std::unordered_set` |
+|----------|------------|-----------------|---------------------|
+| **底层实现** | 红黑树 | 红黑树 | 哈希表 |
+| **是否有序** | 有序 | 有序 | 无序 |
+| **数值是否可重复** | 否 | 是 | 否 |
+| **能否更改数值** | 否 | 否 | 否 |
+| **查询效率** | O(log n) | O(log n) | O(1) |
+| **增删效率** | O(log n) | O(log n) | O(1) |
+
+#### 映射类型 (Map)  
+| 映射类型 | `std::map` | `std::multimap` | `std::unordered_map` |
+|----------|------------|-----------------|---------------------|
+| **底层实现** | 红黑树 | 红黑树 | 哈希表 |
+| **是否有序** | key有序 | key有序 | key无序 |
+| **数值是否可重复** | key不可重复 | key可重复 | key不可重复 |
+| **能否更改数值** | key不可修改 | key不可修改 | key不可修改 |
+| **查询效率** | O(log n) | O(log n) | O(1) |
+| **增删效率** | O(log n) | O(log n) | O(1) |
+
+### 💡 选择原则
+> <span style="color: #FF6B6B; font-weight: bold;">⚠️ 关键判断</span>：数据范围小且连续 → 数组；需要去重 → set；需要计数 → map
+
+> **优先级**：`unordered_set/map` > `set/map` > 数组 > 其他容器
+
+### 🎯 使用建议
+- **集合问题**：优先使用 `unordered_set`（查询增删效率最优）
+  - 需要有序：使用 `set`
+  - 需要有序+重复数据：使用 `multiset`
+- **映射问题**：优先使用 `unordered_map`（key-value结构，性能最优）
+  - 需要key有序：使用 `map`
+  - 需要key有序+可重复：使用 `multimap`
+
+### 🔧 底层原理
+- **红黑树特点**：平衡二叉搜索树，key值有序但不可修改（修改会破坏树结构）
+- **哈希表特点**：通过哈希函数映射，平均O(1)访问，但无序存储
+- **跨语言通用**：Java的HashMap/TreeMap、Python的dict/set等都遵循相同原理
+- **术语统一**：虽然set/multiset底层是红黑树，但解决映射问题的方法仍称为"哈希法"
+
+### 🔨 经典模板
+
+#### 模板一：数组计数（字符/数字范围固定）
+```cpp
+// 统计字符频次
+vector<int> charCount(string s) {
+    vector<int> count(26, 0);  // 假设只有小写字母
+    for (char c : s) {
+        count[c - 'a']++;
+    }
+    return count;
+}
+```
+
+#### 模板二：哈希集合去重
+```cpp
+// 数组交集
+vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+    unordered_set<int> set1(nums1.begin(), nums1.end());
+    unordered_set<int> result;
+    
+    for (int num : nums2) {
+        if (set1.count(num)) {
+            result.insert(num);
+        }
+    }
+    return vector<int>(result.begin(), result.end());
+}
+```
+
+#### 模板三：哈希映射计数
+```cpp
+// 两数之和
+vector<int> twoSum(vector<int>& nums, int target) {
+    unordered_map<int, int> map;  // 值 -> 索引
+    
+    for (int i = 0; i < nums.size(); i++) {
+        int complement = target - nums[i];
+        if (map.count(complement)) {
+            return {map[complement], i};
+        }
+        map[nums[i]] = i;
+    }
+    return {};
+}
+```
+
+#### 模板四：字符串哈希
+```cpp
+// 字母异位词检测
+bool isAnagram(string s, string t) {
+    if (s.length() != t.length()) return false;
+    
+    unordered_map<char, int> count;
+    for (char c : s) count[c]++;
+    for (char c : t) count[c]--;
+    
+    for (auto& p : count) {
+        if (p.second != 0) return false;
+    }
+    return true;
+}
+```
+
+### 💡 核心要点
+- **哈希函数设计**：均匀分布、计算高效、冲突少
+- **冲突处理**：链地址法、开放定址法
+- **负载因子控制**：保持在0.75以下，避免性能退化
+- **扩容机制**：动态调整表大小，重新哈希
+- **空间权衡**：小范围用数组，大范围用哈希表
+
+### 🚀 性能优化
+- **预分配容量**：避免频繁扩容rehash
+- **选择合适结构**：根据数据特点选择容器
+- **避免哈希冲突**：设计好的哈希函数
+- **内存局部性**：连续访问提高缓存命中
+
 ## 📊 复杂度分析
 
 ### ⏱️ 时间复杂度对照表
@@ -333,7 +473,7 @@ ListNode* processLinkedList(ListNode* head) {
 ### 🧠 解题思维模式
 ```
 1. 📖 理解题意 → 明确输入输出，理解约束条件
-2. 🎯 分析模式 → 识别算法类型，选择合适方法  
+2. 🎯 分析模式 → 识别算法类型，选择合适方法
 3. 🔧 设计算法 → 确定数据结构，设计核心逻辑
 4. ✅ 验证正确性 → 边界测试，时空复杂度分析
 5. 🚀 优化实现 → 代码简化，性能优化
@@ -350,7 +490,7 @@ ListNode* processLinkedList(ListNode* head) {
 
 <p align="center">
   <img src="https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge" alt="Made with Love">
-  <img src="https://img.shields.io/badge/Last%20Updated-2025--08--19-blue?style=for-the-badge" alt="Last Updated">
+  <img src="https://img.shields.io/badge/Last%20Updated-2025--08--28-blue?style=for-the-badge" alt="Last Updated">
 </p>
 
 **⭐ 如果这份笔记对你有帮助，请给个Star支持一下！⭐**
