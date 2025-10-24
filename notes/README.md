@@ -16,15 +16,58 @@
 
 ---
 
+## 🚀 快速导航
+
+<table>
+<tr>
+<td width="25%" align="center">
+  <h3>📊 数组专题</h3>
+  <p>二分查找 · 双指针</p>
+  <p>滑动窗口 · 前缀和</p>
+  <a href="./topics/数组算法专题.md">进入专题 →</a>
+</td>
+<td width="25%" align="center">
+  <h3>🔗 链表专题</h3>
+  <p>虚拟头节点 · 反转</p>
+  <p>快慢指针 · 环检测</p>
+  <a href="./topics/链表算法专题.md">进入专题 →</a>
+</td>
+<td width="25%" align="center">
+  <h3>🔢 哈希表专题</h3>
+  <p>快速查找 · 计数</p>
+  <p>去重集合 · 映射</p>
+  <a href="./topics/哈希表算法专题.md">进入专题 →</a>
+</td>
+<td width="25%" align="center">
+  <h3>🔤 字符串专题</h3>
+  <p>KMP · 滑动窗口</p>
+  <p>回文 · 动态规划</p>
+  <a href="./topics/字符串算法专题.md">进入专题 →</a>
+</td>
+</tr>
+</table>
+
+---
+
 ## 📖 目录 (Table of Contents)
 
+### 🎯 核心算法专题
+| 专题 | 难度 | 核心技巧 | 文档链接 |
+|------|------|----------|----------|
+| 📊 数组算法 | ⭐⭐ | 二分查找、双指针、滑动窗口 | [查看详情](./topics/数组算法专题.md) |
+| 🔗 链表算法 | ⭐⭐ | 虚拟头节点、快慢指针、反转 | [查看详情](./topics/链表算法专题.md) |
+| 🔢 哈希表算法 | ⭐⭐ | 计数统计、快速查找、去重 | [查看详情](./topics/哈希表算法专题.md) |
+| 🔤 字符串算法 | ⭐⭐⭐ | KMP、滑动窗口、回文、DP | [查看详情](./topics/字符串算法专题.md) |
+
+### 📚 核心笔记章节
 - [🔍 二分查找](#-二分查找)
 - [👫 双指针技术](#-双指针技术)
 - [🪟 滑动窗口](#-滑动窗口)
 - [🎭 虚拟头节点技巧](#-虚拟头节点技巧)
-- [🔍 哈希表](#-哈希表)
+- [🔢 哈希表](#-哈希表)
 - [📊 复杂度分析](#-复杂度分析)
 - [🛠️ 解题技巧](#️-解题技巧)
+
 ---
 
 ## 🔍 二分查找
@@ -287,7 +330,7 @@ ListNode* processLinkedList(ListNode* head) {
 - **易于理解**：代码逻辑更清晰直观
 
 
-## 🔍 哈希表
+## 🔢 哈希表
 
 ### 💡 核心思想
 哈希表是根据关键码的值而直接进行访问的数据结构，通过**哈希函数**将关键字映射到存储位置，实现 **O(1)** 平均时间复杂度的查找、插入和删除操作。
@@ -450,6 +493,31 @@ bool isAnagram(string s, string t) {
 
 ## 🛠️ 解题技巧
 
+### 📌 库函数使用原则
+
+> ⚠️ **重要提醒**：打基础的时候，不要太迷恋于库函数！
+
+<div style="background-color: #FFF3CD; border-left: 4px solid #FFA500; padding: 12px; margin: 16px 0;">
+
+**常见误区**：
+- 习惯性调用 `substr`、`split`、`reverse` 等库函数
+- 不了解其内部实现原理
+- 不清楚其时间复杂度
+
+**面试风险**：面试官询问时间复杂度分析时会措手不及
+
+</div>
+
+**✅ 推荐做法**：
+
+| 场景 | 建议 | 说明 |
+|------|------|------|
+| 🔴 **核心逻辑** | ❌ 不使用库函数 | 题目关键部分用库函数可直接解决时 |
+| 🟢 **辅助功能** | ✅ 可以使用 | 库函数仅是一小部分 + 清楚实现原理 |
+| 🟡 **不确定时** | 🤔 手写实现 | 既能练习又能加深理解 |
+
+**💡 核心原则**：理解原理 > 使用库函数
+
 ### 🎯 问题类型识别
 | 关键词 | 算法类型 | 常用技巧 |
 |--------|----------|----------|
@@ -485,14 +553,28 @@ bool isAnagram(string s, string t) {
 
 ## 🎉 Happy Coding! 🎉
 
-> *"算法不是目的，思维才是核心"*  
-> *"Practice makes perfect, persistence makes progress"*
+> 💭 *"算法不是目的，思维才是核心"*  
+> 🚀 *"Practice makes perfect, persistence makes progress"*  
+> 📖 *"学而不思则罔，思而不学则殆"*
+
+### 📊 笔记统计
+
+| 📝 核心专题 | 🔧 算法模板 | 📚 题目覆盖 | ⏰ 持续更新 |
+|:----------:|:----------:|:----------:|:----------:|
+| 4+ 专题 | 30+ 模板 | 100+ 题目 | 每周更新 |
 
 <p align="center">
   <img src="https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge" alt="Made with Love">
-  <img src="https://img.shields.io/badge/Last%20Updated-2025--08--28-blue?style=for-the-badge" alt="Last Updated">
+  <img src="https://img.shields.io/badge/Language-C++%20|%20Python%20|%20Go-blue?style=for-the-badge" alt="Languages">
+  <img src="https://img.shields.io/badge/Last%20Updated-2025--10--24-green?style=for-the-badge" alt="Last Updated">
 </p>
 
-**⭐ 如果这份笔记对你有帮助，请给个Star支持一下！⭐**
+### ⭐ 支持项目
+
+如果这份笔记对你有帮助，欢迎：
+- 🌟 给个 Star 支持一下
+- 🔀 Fork 并添加你的笔记
+- 💬 提出 Issue 或建议
+- 📢 分享给更多需要的人
 
 </div>
