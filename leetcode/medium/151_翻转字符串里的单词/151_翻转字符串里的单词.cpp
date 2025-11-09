@@ -68,7 +68,7 @@ public:
         bool entry=false;  //标记枚举字符串的过程中是否已经进入了单词区间
         for(int i=0;i<s.size();i++)
         {
-            if((!entry)||(s[i]!=' '&&s[i-1]==' '))
+            if((!entry)||(i>0 && s[i]!=' ' && s[i-1]==' '))
             {
                 start=i;      //确定单词起始位置
                 entry=true;
