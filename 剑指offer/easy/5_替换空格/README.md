@@ -1,6 +1,6 @@
 # 5. 替换空格
 
-- **平台**：剑指 Offer
+- **平台**：剑指Offer
 - **链接**：https://mp.weixin.qq.com/s?__biz=MzUxNjY5NTYxNA==&mid=2247484380&idx=1&sn=71d65b4c34c1c78d497115f109773343&scene=21#wechat_redirect
 - **难度**：Easy
 - **标签**：字符串、双指针
