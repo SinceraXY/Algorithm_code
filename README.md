@@ -2,7 +2,10 @@
 
 记录日常算法题的解题代码、思路与心得，持续积累、系统化复盘，帮助自己构建“可检索、可复用、可演进”的题解知识库。
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](#license) [![Last Commit](https://img.shields.io/github/last-commit/SinceraXY/Algorithm_code)](https://github.com/SinceraXY/Algorithm_code/commits) [![Issues](https://img.shields.io/github/issues/SinceraXY/Algorithm_code)](https://github.com/SinceraXY/Algorithm_code/issues)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](#license) 
+[![Last Commit](https://img.shields.io/github/last-commit/SinceraXY/Algorithm_code)](https://github.com/SinceraXY/Algorithm_code/commits) 
+[![Issues](https://img.shields.io/github/issues/SinceraXY/Algorithm_code)](https://github.com/SinceraXY/Algorithm_code/issues)
+[![Stars](https://img.shields.io/github/stars/SinceraXY/Algorithm_code)](https://github.com/SinceraXY/Algorithm_code/stargazers)
 
 ---
 
