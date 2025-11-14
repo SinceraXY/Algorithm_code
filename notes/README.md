@@ -6,7 +6,8 @@
   <img src="https://img.shields.io/badge/Algorithm-Study%20Notes-brightgreen?style=for-the-badge&logo=github" alt="Algorithm Study Notes">
   <img src="https://img.shields.io/badge/Language-多语言-blue?style=for-the-badge" alt="Multi Language">
   <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge" alt="Status">
-  <img src="https://img.shields.io/badge/Templates-30+-orange?style=for-the-badge" alt="Templates">
+  <img src="https://img.shields.io/badge/Templates-35+-orange?style=for-the-badge" alt="Templates">
+  <img src="https://img.shields.io/badge/Last%20Update-2025%2F11%2F14-brightgreen?style=for-the-badge" alt="Last Update">
 </p>
 
 > *🎯 一份系统化的算法学习笔记，助力编程面试和竞赛准备*
@@ -19,8 +20,8 @@
 
 **✨ 特色亮点**
 
-🎨 **系统化** - 4大专题完整覆盖，由浅入深循序渐进  
-⚡ **实战性** - 30+ 核心模板，拿来即用，面试必备  
+🎨 **系统化** - 5大专题完整覆盖，由浅入深循序渐进  
+⚡ **实战性** - 35+ 核心模板，拿来即用，面试必备  
 🔍 **可视化** - 图文并茂，算法思路清晰，易于理解  
 🌍 **多语言** - C++/Python/Go 三语言对照实现  
 💡 **干货集中** - 去除冗余，只留精华，每个知识点都是重点  
@@ -33,29 +34,35 @@
 
 <table>
 <tr>
-<td width="25%" align="center">
+<td width="20%" align="center">
   <h3>📊 数组专题</h3>
   <p>二分查找 · 双指针</p>
   <p>滑动窗口 · 前缀和</p>
   <a href="./topics/数组算法专题.md">进入专题 →</a>
 </td>
-<td width="25%" align="center">
+<td width="20%" align="center">
   <h3>🔗 链表专题</h3>
   <p>虚拟头节点 · 反转</p>
   <p>快慢指针 · 环检测</p>
   <a href="./topics/链表算法专题.md">进入专题 →</a>
 </td>
-<td width="25%" align="center">
+<td width="20%" align="center">
   <h3>🔢 哈希表专题</h3>
   <p>快速查找 · 计数</p>
   <p>去重集合 · 映射</p>
   <a href="./topics/哈希表算法专题.md">进入专题 →</a>
 </td>
-<td width="25%" align="center">
+<td width="20%" align="center">
   <h3>🔤 字符串专题</h3>
   <p>KMP · 滑动窗口</p>
   <p>回文 · 动态规划</p>
   <a href="./topics/字符串算法专题.md">进入专题 →</a>
+</td>
+<td width="20%" align="center">
+  <h3>📚 栈队列专题</h3>
+  <p>后进先出 · 先进先出</p>
+  <p>单调栈 · 容器适配器</p>
+  <a href="./topics/栈与队列算法专题.md">进入专题 →</a>
 </td>
 </tr>
 </table>
@@ -71,6 +78,7 @@
 | 🔗 链表算法 | ⭐⭐ | 虚拟头节点、快慢指针、反转技巧 | 统一边界处理、空间O(1) | [查看详情](./topics/链表算法专题.md) |
 | 🔢 哈希表算法 | ⭐⭐ | 数组计数、映射关系、去重集合 | 空间换时间、容器选择、范围判断 | [查看详情](./topics/哈希表算法专题.md) |
 | 🔤 字符串算法 | ⭐⭐⭐ | KMP匹配、滑动窗口、回文检测 | 模式识别、字符统计、原地操作 | [查看详情](./topics/字符串算法专题.md) |
+| 📚 栈队列算法 | ⭐⭐ | 单调栈、容器适配器、双栈实现 | LIFO/FIFO、不提供迭代器、STL原理 | [查看详情](./topics/栈与队列算法专题.md) |
 
 ### 📚 核心笔记章节
 
@@ -698,7 +706,59 @@ for (int i = 0; i < s.length(); i += 2*k) {
 - 数组元素插入
 - 合并两个有序数组
 
+
+**💡 技巧三：避免低效操作**
+
+⚠️ **常见性能陷阱**：
+- **字符串erase**: 在循环中使用`erase()`容易造成O(n²)复杂度
+- **删除冗余空格**: 不当操作会从O(n)退化为O(n²)  
+- **频繁插入删除**: vector中间位置的频繁操作效率低
+
+✅ **优化策略**：
+- **用双指针替代erase**: 原地修改，避免元素移动
+  ```cpp
+  // ❌ 低效：O(n²) 
+  for(int i = 0; i < s.size(); i++) {
+      if(s[i] == ' ') s.erase(i, 1);
+  }
+  
+  // ✅ 高效：O(n)
+  int slow = 0;
+  for(int fast = 0; fast < s.size(); fast++) {
+      if(s[fast] != ' ') s[slow++] = s[fast];
+  }
+  s.resize(slow);
+  ```
+- **批量操作**: 先统计再处理，减少重复计算
+- **选择合适容器**: 根据操作特点选择list/deque等
+
+**💡 技巧四：代码复用原则**
+
+🎯 **抽象复用**: 功能相近的函数要抽象出来，避免大量复制粘贴
+
+```cpp
+// ❌ 重复代码 - 容易出错
+bool isValidChar1(char c) { return c >= 'a' && c <= 'z'; }
+bool isValidChar2(char c) { return c >= 'A' && c <= 'Z'; }
+bool isValidChar3(char c) { return c >= '0' && c <= '9'; }
+
+// ✅ 抽象复用 - 易维护
+bool isInRange(char c, char start, char end) {
+    return c >= start && c <= end;
+}
+bool isLower(char c) { return isInRange(c, 'a', 'z'); }
+bool isUpper(char c) { return isInRange(c, 'A', 'Z'); }  
+bool isDigit(char c) { return isInRange(c, '0', '9'); }
+```
+
+**复用原则**：
+- ✅ 提取公共逻辑为独立函数
+- ✅ 使用模板处理相似操作  
+- ✅ 合理封装，提高代码复用性
+- ❌ 避免复制粘贴，容易出错且难维护
+
 </div>
+
 
 **✅ 库函数使用原则**：
 
@@ -726,6 +786,7 @@ for (int i = 0; i < s.length(); i += 2*k) {
 | 🔗 **链表增删改** | 虚拟头节点 | 统一边界、简化逻辑 | O(n) | 删除节点、合并链表、反转 |
 | 🔢 **快速查找/计数** | 哈希表 | 数组/set/map选择 | O(1) | 两数和、字符统计、去重 |
 | 🔤 **字符串匹配** | KMP/滑窗 | 前缀函数、状态维护 | O(n) | 模式匹配、重复子串、异位词 |
+| 📚 **栈队列问题** | 单调栈/队列 | LIFO/FIFO、容器适配器 | O(n) | 括号匹配、滑动窗口、表达式 |
 | 🎯 **最优子结构** | 动态规划 | 状态转移、边界初始化 | O(n²) | 最值问题、计数问题、背包 |
 | 🔄 **全搜索/枚举** | 回溯/DFS | 剪枝优化、状态回溯 | O(2^n) | 排列组合、路径搜索、子集 |
 
@@ -736,6 +797,7 @@ for (int i = 0; i < s.length(); i += 2*k) {
 🔗 链表操作三要点：虚拟头节点统一，快慢指针找环，反转递归迭代  
 🔢 哈希选择有门道：范围小用数组，去重用set，计数用map
 🔤 字符串解题路：匹配用KMP，子串用滑窗，回文用双指，统计用哈希
+📚 栈队列巧应用：后进先出栈，先进先出队，单调栈求最值，适配器懂原理
 
 ⚡ 核心思维：时间换空间用哈希，空间换时间靠预处理
 🎯 复杂度选择：n≤10³用O(n²)，n≤10⁵用O(nlogn)，n≤10⁶用O(n)
@@ -832,45 +894,22 @@ for (int i = 0; i < s.length(); i += 2*k) {
 
 | 📝 核心专题 | 🔧 算法模板 | 📚 经典题型 | ⏰ 更新频率 |
 |:----------:|:----------:|:----------:|:----------:|
-| **4大专题** | **30+模板** | **100+题型** | **实时更新** |
+| **5大专题** | **35+模板** | **120+题型** | **实时更新** |
 
 **专题覆盖**：
 - 📊 **数组专题**：二分查找、双指针、滑动窗口、前缀和、差分数组 
 - 🔗 **链表专题**：虚拟头节点、快慢指针、链表反转、环形检测、合并排序
 - 🔢 **哈希专题**：数组计数、字典映射、去重集合、快速查找、统计频次
 - 🔤 **字符串专题**：KMP算法、滑动窗口、回文检测、双指针、字符统计
+- 📚 **栈队列专题**：容器适配器、单调栈队列、相互实现、STL底层原理
 
 <p align="center">
   <img src="https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge" alt="Made with Love">
   <img src="https://img.shields.io/badge/Language-C++%20|%20Python%20|%20Go-blue?style=for-the-badge" alt="Languages">
-  <img src="https://img.shields.io/badge/Last%20Updated-2025--11--12-green?style=for-the-badge" alt="Last Updated">
+  <img src="https://img.shields.io/badge/Last%20Updated-2025--11--14-green?style=for-the-badge" alt="Last Updated">
 </p>
 
 ---
-
-### 📈 核心模板库
-
-```
-🎯 算法模板分类
-├── 📊 数组算法 (8个模板)
-│   ├── 二分查找 - 标准查找、边界查找、插入位置
-│   ├── 双指针 - 快慢指针、对撞指针、同向指针  
-│   ├── 滑动窗口 - 固定窗口、最小长度、最大长度
-│   └── 前缀和 - 一维前缀和、二维前缀和、差分数组
-├── 🔗 链表算法 (6个模板)
-│   ├── 虚拟头节点 - 统一删除、插入操作
-│   ├── 快慢指针 - 环检测、中点查找、倒数第k个
-│   └── 链表反转 - 迭代反转、递归反转、区间反转
-├── 🔢 哈希算法 (5个模板) 
-│   ├── 数组计数 - 字符统计、范围计数
-│   ├── 映射关系 - 索引映射、频次统计
-│   └── 去重集合 - 快速查找、交集并集
-└── 🔤 字符串算法 (11个模板)
-    ├── KMP算法 - 模式匹配、重复子串
-    ├── 滑动窗口 - 最小覆盖、无重复字符
-    ├── 双指针 - 回文判断、字符串反转
-    └── 字符统计 - 异位词检测、字符计数
-```
 
 ### ⭐ 支持项目
 
