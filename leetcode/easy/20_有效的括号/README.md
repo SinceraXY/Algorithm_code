@@ -41,39 +41,47 @@
 **核心思路：**
 - 用一个栈保存尚未匹配的左括号。
 - 遇到右括号时，检查栈顶是否是对应的左括号：
-  - 若栈为空或栈顶不匹配，立即返回 `False`。
+  - 若栈为空或栈顶不匹配，立即返回 `false`。
   - 若匹配则弹栈继续。
 - 遍历结束后，栈必须为空才是有效括号串。
 
 **关键细节：**
-- 若 `s` 长度为奇数，一定不可能完全配对，可提前返回 `False`。
-- 使用映射 `pairs = {')': '(', ']': '[', '}': '{'}` 方便判断右括号对应的左括号。
+- 若 `s` 长度为奇数，一定不可能完全配对，可提前返回 `false`。
+- 使用映射 `pairs = {{')','('}, {']','['}, {'}','{'}}` 方便判断右括号对应的左括号。
 
 ## 代码实现
 
-### Python
+### C++
 
-```python
-class Solution:
-    def isValid(self, s: str) -> bool:
-        if len(s)%2==1:
-            return False
-
-        pairs={
-            ")":"(",
-            "]":"[",
-            "}":"{",
+```cpp
+class Solution {
+public:
+    bool isValid(string s) {
+        int n = s.size();
+        if (n % 2 == 1) {
+            return false;
         }
-        stack=list()
-        for ch in s:
-            if ch in pairs:
-                if not stack or stack[-1] != pairs[ch]:
-                    return False
-                stack.pop()
-            else:
-                stack.append(ch)
-        
-        return not stack
+
+        unordered_map<char, char> pairs = {
+            {')', '('},
+            {']', '['},
+            {'}', '{'}
+        };
+        stack<char> stk;
+        for (char ch: s) {
+            if (pairs.count(ch)) {
+                if (stk.empty() || stk.top() != pairs[ch]) {
+                    return false;
+                }
+                stk.pop();
+            }
+            else {
+                stk.push(ch);
+            }
+        }
+        return stk.empty();
+    }
+};
 ```
 
 ## 复杂度分析
