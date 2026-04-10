@@ -51,11 +51,26 @@
 
 递归遍历时，系统会隐式维护一条从根到当前节点的路径栈。迭代写法本质上是把这个“隐式栈”改为“显式栈”。
 
-做法是：
+**1. 经典迭代（指针访问 + 栈处理）：**
 
-1. 沿着左孩子不断向下，把路径节点依次入栈；
-2. 当左侧走到底后弹栈，访问该节点（这是中序的“根”位置）；
-3. 再转向其右子树，重复以上过程。
+这种方式利用指针 `cur` 模拟访问节点的路径，利用栈 `st` 记录待处理的节点。
+
+1. **访问阶段**：指针 `cur` 不断向左子树深入，将沿途经过的节点压入栈中，直到 `cur` 为空。
+2. **处理阶段**：从栈中弹出节点。由于栈是先进后出，最先弹出的节点必定是当前路径上“最左下”的节点。
+3. **转向阶段**：访问该弹出节点的值后，将指针 `cur` 指向该节点的右孩子，重复上述过程。
+
+这种方式的特点是：**指针负责遍历（找节点），栈负责处理（存节点）**。
+
+**2. 统一迭代法（标记法）：**
+
+由于中序遍历的访问顺序（根、左、右）和处理顺序（左、根、右）不一致，传统的迭代代码通常与前序和后序不统一。
+
+为了实现统一，可以使用“标记法”：
+- 将访问的节点放入栈中。
+- 如果该节点是待处理的（即需要放入结果集的），在其后方压入一个 `NULL` 指针作为标记。
+- 当从栈中弹出 `NULL` 时，表示下一个弹出的节点即为待处理节点。
+
+中序遍历的入栈顺序应为：**右 -> 中 -> 左**（栈是先进后出，所以出栈顺序为左中右）。
 
 ### 方法三：Morris 遍历（进阶，O(1) 额外空间）
 
@@ -114,6 +129,62 @@ public:
             root = root->right;
         }
         return res;
+    }
+};
+```
+
+#### 迭代（经典方式）
+
+```cpp
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode*> st;
+        TreeNode* cur = root;
+        while (cur != NULL || !st.empty()) {
+            if (cur != NULL) { // 指针来访问节点，访问到最底层
+                st.push(cur); // 讲访问的节点放进栈
+                cur = cur->left;                // 左
+            } else {
+                cur = st.top(); // 从栈里弹出的数据，就是要处理的数据（放进result数组里的数据）
+                st.pop();
+                result.push_back(cur->val);     // 中
+                cur = cur->right;               // 右
+            }
+        }
+        return result;
+    }
+};
+```
+
+#### 迭代（统一标记法）
+
+```cpp
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode*> st;
+        if (root != NULL) st.push(root);
+        while (!st.empty()) {
+            TreeNode* node = st.top();
+            if (node != NULL) {
+                st.pop();  //将该节点弹出，避免重复操作，下面再将右中左节点添加到栈中
+                if (node->right) st.push(node->right);  //添加右节点（空节点不入栈）
+
+                st.push(node);                          //添加中节点
+                st.push(NULL); //中节点访问过，但是还没有处理，加入空节点做为标记。
+
+                if (node->left) st.push(node->left);    //添加左节点（空节点不入栈）
+            } else {      //只有遇到空节点的时候，才将下一个节点放进结果集
+                st.pop();           //将空节点弹出
+                node = st.top();    //重新取出栈中元素
+                st.pop();
+                result.push_back(node->val);       //加入到结果集
+            }
+        }
+        return result;
     }
 };
 ```

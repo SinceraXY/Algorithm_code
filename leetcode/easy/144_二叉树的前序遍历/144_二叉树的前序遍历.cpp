@@ -55,6 +55,50 @@ public:
     }
 };
 
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        stack<TreeNode*> st;
+        vector<int> result;
+        st.push(root);
+        while (!st.empty()) {
+            TreeNode* node = st.top();                      // 中
+            st.pop();
+            if (node != NULL) result.push_back(node->val);
+            else continue;
+            st.push(node->right);                           // 右
+            st.push(node->left);                            // 左
+        }
+        return result;
+    }
+};
+
+//统一迭代标记法
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode*> st;
+        if (root != NULL) st.push(root);
+        while (!st.empty()) {
+            TreeNode* node = st.top();
+            if (node != NULL) {
+                st.pop();
+                if (node->right) st.push(node->right);  // 右
+                if (node->left) st.push(node->left);    // 左
+                st.push(node);                          // 中
+                st.push(NULL);
+            } else {
+                st.pop();
+                node = st.top();
+                st.pop();
+                result.push_back(node->val);
+            }
+        }
+        return result;
+    }
+};
+
 
 
 //Morris遍历

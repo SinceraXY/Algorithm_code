@@ -54,14 +54,26 @@
 
 - 你从栈里弹出一个节点 `cur` 时，并不能立刻访问它（因为要先保证右子树已经处理完）。
 
-一种常用做法是：
+**1. 经典迭代（双指针法）：**
 
 1. 用栈模拟递归的“向左走到底”；
 2. 弹出栈顶节点 `cur` 后：
-   - 如果 `cur.right` 为空，或者 `cur.right` 已经访问过（用 `prev` 记录上一个访问过的节点），说明可以访问 `cur`；
-   - 否则把 `cur` 再压回栈中，转而去处理它的右子树。
+   - 如果 `cur.right` 为空，或者 `cur.right == prev`（上一个访问过的节点），说明右子树已处理完，可以访问 `cur`；
+   - 否则把 `cur` 再压回栈中，转而处理右子树。
 
-这样就能保证每个节点都在“左右子树都处理完之后”才被加入结果。
+**2. 通用迭代（前序反转法）：**
+
+前序遍历顺序是“中左右”，将其代码逻辑稍作修改：
+1. 入栈顺序改为：先左后右。
+2. 出栈顺序则变为：中右左。
+3. 最后将结果数组整体反转，得到：左右中（即后序遍历）。
+
+**3. 统一迭代法（标记法）：**
+
+使用 `NULL` 指针作为标记位，实现访问与处理逻辑的分离。
+- 入栈顺序为：**中 -> 右 -> 左**（栈先进后出，出栈即为左右中）。
+- 每次将中节点入栈后，紧跟一个 `NULL` 标记。
+- 弹出 `NULL` 时，处理其后的节点。
 
 ### 方法三：Morris 遍历（进阶，O(1) 额外空间）
 
@@ -137,6 +149,60 @@ public:
             }
         }
         return res;
+    }
+};
+```
+
+#### 迭代（前序反转方式）
+
+```cpp
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        stack<TreeNode*> st;
+        vector<int> result;
+        if (root == NULL) return result;
+        st.push(root);
+        while (!st.empty()) {
+            TreeNode* node = st.top();
+            st.pop();
+            result.push_back(node->val);
+            if (node->left) st.push(node->left); // 相对于前序遍历，这更改一下入栈顺序
+            if (node->right) st.push(node->right);
+        }
+        reverse(result.begin(), result.end()); // 将结果反转之后就是左右中的顺序了
+        return result;
+    }
+};
+```
+
+#### 迭代（统一标记法）
+
+```cpp
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode*> st;
+        if (root != NULL) st.push(root);
+        while (!st.empty()) {
+            TreeNode* node = st.top();
+            if (node != NULL) {
+                st.pop();
+                st.push(node);                          // 中
+                st.push(NULL);
+
+                if (node->right) st.push(node->right);  // 右
+                if (node->left) st.push(node->left);    // 左
+
+            } else {
+                st.pop();
+                node = st.top();
+                st.pop();
+                result.push_back(node->val);
+            }
+        }
+        return result;
     }
 };
 ```

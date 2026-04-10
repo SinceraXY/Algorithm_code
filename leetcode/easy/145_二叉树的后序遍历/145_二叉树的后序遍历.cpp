@@ -62,6 +62,54 @@ public:
     }
 };
 
+class Solution {
+public:
+
+    vector<int> postorderTraversal(TreeNode* root) {
+        stack<TreeNode*> st;
+        vector<int> result;
+        st.push(root);
+        while (!st.empty()) {
+            TreeNode* node = st.top();
+            st.pop();
+            if (node != NULL) result.push_back(node->val);
+            else continue;
+            st.push(node->left); // 相对于前序遍历，这更改一下入栈顺序
+            st.push(node->right);
+        }
+        reverse(result.begin(), result.end()); // 将结果反转之后就是左右中的顺序了
+        return result;
+    }
+};
+
+//统一迭代标记法
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode*> st;
+        if (root != NULL) st.push(root);
+        while (!st.empty()) {
+            TreeNode* node = st.top();
+            if (node != NULL) {
+                st.pop();
+                st.push(node);                          // 中
+                st.push(NULL);
+
+                if (node->right) st.push(node->right);  // 右
+                if (node->left) st.push(node->left);    // 左
+
+            } else {
+                st.pop();
+                node = st.top();
+                st.pop();
+                result.push_back(node->val);
+            }
+        }
+        return result;
+    }
+};
+
 
 
 //Morris遍历

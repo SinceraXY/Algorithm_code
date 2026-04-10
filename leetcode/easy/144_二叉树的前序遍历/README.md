@@ -53,13 +53,31 @@
 
 我们也可以用迭代的方式实现方法一的递归函数，两种方式是等价的。区别在于递归的时候隐式地维护了一个栈，而迭代时需要显式地将这个栈模拟出来，其余的实现与细节都相同。
 
-具体做法是：
+**1. 经典迭代（入栈前访问）：**
 
 1. 用栈保存回溯路径；
 2. 不断向左走的过程中：
    - 先访问当前节点（前序：先处理根）
    - 再将其入栈
 3. 左侧走到底后弹栈，并转向右子树继续。
+
+**2. 通用迭代（入栈后访问）：**
+
+由于栈是“先进后出”，前序遍历是“中左右”，所以入栈顺序应该是：
+1. 弹出栈顶元素（中）并处理；
+2. 将右孩子入栈（如果有）；
+3. 将左孩子入栈（如果有）。
+
+**3. 统一迭代法（标记法）：**
+
+为了将三种遍历（前、中、后序）的迭代代码统一，可以使用“标记法”。
+
+传统的迭代法往往「无法同时解决访问节点（遍历节点）和处理节点（将元素放进结果集）不一致的情况」。例如在中序遍历中，我们先访问的是根节点，但先处理的却是左子树。
+
+「那我们就将访问的节点放入栈中，把要处理的节点也放入栈中但是要做标记。」
+
+具体做法是：将要处理的节点放入栈之后，紧接着放入一个 `NULL` 指针作为标记。这样当从栈中弹出 `NULL` 时，就知道下一个节点是已经访问过且待处理的节点，从而实现了访问与处理逻辑的分离。
+
 
 ### 方法三：Morris 遍历（进阶，O(1) 额外空间）
 
@@ -122,9 +140,57 @@ public:
         return res;
     }
 };
+
+#### 迭代（通用入栈方式）
+
+```cpp
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        stack<TreeNode*> st;
+        vector<int> result;
+        if (root == nullptr) return result;
+        st.push(root);
+        while (!st.empty()) {
+            TreeNode* node = st.top();                      // 中
+            st.pop();
+            result.push_back(node->val);
+            if (node->right) st.push(node->right);           // 右
+            if (node->left) st.push(node->left);             // 左
+        }
+        return result;
+    }
+};
 ```
 
-#### Morris 遍历
+#### 迭代（统一标记法）
+
+```cpp
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode*> st;
+        if (root != NULL) st.push(root);
+        while (!st.empty()) {
+            TreeNode* node = st.top();
+            if (node != NULL) {
+                st.pop();
+                if (node->right) st.push(node->right);  // 右
+                if (node->left) st.push(node->left);    // 左
+                st.push(node);                          // 中
+                st.push(NULL);
+            } else {
+                st.pop();
+                node = st.top();
+                st.pop();
+                result.push_back(node->val);
+            }
+        }
+        return result;
+    }
+};
+```
 ```cpp
 class Solution {
 public:
